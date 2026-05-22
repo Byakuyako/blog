@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const groupedByYear = new Map<string, typeof posts>();
+posts.forEach((post) => {
+  const year = post.data.date.getFullYear().toString();
+  if (!groupedByYear.has(year)) groupedByYear.set(year, []);
+  groupedByYear.get(year)!.push(post);
+});
+const years = Array.from(groupedByYear.keys()).sort((a, b) => (a < b ? 1 : -1));
+---
+
+<BaseLayout title="归档">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">归档</h1>
+    <p class="text-gray-500 mb-8">共 {posts.length} 篇文章</p>
+
+    {
+      years.length === 0 ? (
+        <p class="text-gray-400 text-center py-12">暂无文章</p>
+      ) : (
+        <div class="space-y-8">
+          {years.map((year) => (
+            <section>
+              <h2 class="text-2xl font-bold text-gray-800 mb-4">{year}</h2>
+              <ul class="space-y-3">
+                {groupedByYear.get(year)!.map((post) => (
+                  <li class="flex items-baseline gap-4 group">
+                    <time class="text-sm text-gray-400 shrink-0 w-28">
+                      {post.data.date.toISOString().split("T")[0]}
+                    </time>
+                    <a
+                      href={`/posts/${post.id}`}
+                      class="text-gray-700 hover:text-primary-600 transition-colors font-medium truncate"
+                    >
+                      {post.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

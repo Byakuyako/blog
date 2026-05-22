@@ -1,0 +1,50 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="关于">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">关于</h1>
+
+    <div class="prose prose-gray max-w-none">
+      <p>欢迎来到我的个人博客。这里记录我的学习笔记、生活感悟和技术探索。</p>
+
+      <h2>关于我</h2>
+      <p>
+        我是 Jesse Anderson（Byakuyako），一名学生和研究者。喜欢探索新事物，热爱学习和分享。
+      </p>
+
+      <h2>关于这个博客</h2>
+      <p>
+        这个博客最初建于 2018 年，使用 Hexo 框架搭建。2026 年迁移到 Astro，托管在 Vercel 上。
+      </p>
+
+      <h2>座右铭</h2>
+      <blockquote>
+        <p>
+          从来没有真正的绝境，只有心灵的迷途。<br />
+          Never really desperate, only the lost of the soul.
+        </p>
+      </blockquote>
+    </div>
+
+    <div class="mt-10 pt-8 border-t border-gray-100">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">联系方式</h2>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://github.com/Byakuyako"
+          target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-sm"
+        >
+          GitHub
+        </a>
+        <a
+          href="mailto:dynaptx@163.com"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-sm"
+        >
+          Email
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

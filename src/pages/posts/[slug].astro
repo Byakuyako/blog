@@ -1,0 +1,73 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { title, date, tags, categories } = post.data;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={title}>
+  <article class="max-w-3xl mx-auto">
+    <a
+      href="/"
+      class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary-600 transition-colors mb-8 group"
+    >
+      <span class="group-hover:-translate-x-0.5 transition-transform">&larr;</span>
+      返回首页
+    </a>
+
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight text-balance">
+        {title}
+      </h1>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+        <time datetime={date.toISOString()}>
+          {date.toISOString().split("T")[0]}
+        </time>
+
+        {categories.length > 0 && (
+          <span>
+            {categories.join("、")}
+          </span>
+        )}
+      </div>
+
+      {tags.length > 0 && (
+        <div class="flex flex-wrap items-center gap-1.5 mt-3">
+          {tags.map((tag: string) => (
+            <a href={`/tags#${tag}`} class="tag-badge text-xs">
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose prose-gray max-w-none">
+      <Content />
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-gray-100">
+      <a
+        href="/"
+        class="inline-flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 transition-colors"
+      >
+        &larr; 返回文章列表
+      </a>
+    </div>
+  </article>
+</BaseLayout>

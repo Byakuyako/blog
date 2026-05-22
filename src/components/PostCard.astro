@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { title, date, tags, excerpt } = post.data;
+---
+
+<a href={`/posts/${post.id}`} class="block group">
+  <article class="post-card bg-white border border-gray-100 rounded-xl p-6 h-full flex flex-col">
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-1.5 mb-3">
+        {tags.map((tag: string) => (
+          <span class="tag-badge">{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <h2 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
+      {title}
+    </h2>
+
+    {excerpt && (
+      <p class="text-sm text-gray-500 mb-4 line-clamp-3 flex-1">
+        {excerpt}
+      </p>
+    )}
+
+    <time class="text-xs text-gray-400 mt-auto" datetime={date.toISOString()}>
+      {date.toISOString().split("T")[0]}
+    </time>
+  </article>
+</a>

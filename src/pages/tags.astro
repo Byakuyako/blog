@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const tagMap = new Map<string, number>();
+posts.forEach((post) => {
+  post.data.tags.forEach((tag: string) => {
+    tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+  });
+});
+const tags = Array.from(tagMap.entries())
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count);
+---
+
+<BaseLayout title="标签">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">标签</h1>
+    <p class="text-gray-500 mb-8">共 {tags.length} 个标签</p>
+
+    {
+      tags.length === 0 ? (
+        <p class="text-gray-400 text-center py-12">暂无标签</p>
+      ) : (
+        <div class="space-y-10">
+          {tags.map(({ name, count }) => (
+            <section id={name}>
+              <h2 class="text-lg font-semibold text-gray-800 mb-3 pb-2 border-b border-gray-100">
+                {name}<span class="ml-2 text-sm font-normal text-gray-400">({count})</span>
+              </h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {posts
+                  .filter((p) => p.data.tags.includes(name))
+                  .map((post) => <PostCard post={post} />)}
+              </div>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

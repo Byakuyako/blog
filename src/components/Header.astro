@@ -1,0 +1,65 @@
+---
+const navItems = [
+  { href: "/", label: "首页" },
+  { href: "/tags", label: "标签" },
+  { href: "/categories", label: "分类" },
+  { href: "/archives", label: "归档" },
+  { href: "/about", label: "关于" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+  <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="text-lg font-bold text-gray-900 tracking-tight shrink-0">
+        Byakuyako
+      </a>
+
+      <nav class="hidden sm:flex items-center gap-1">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              currentPath === item.href
+                ? "text-primary-700 bg-primary-50"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+            }`}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <a href="#mobile-menu" class="sm:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="菜单">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-menu" class="fixed inset-0 z-[100] bg-white hidden target:block sm:hidden">
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-100">
+      <span class="text-lg font-bold text-gray-900">Byakuyako</span>
+      <a href="#" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="关闭菜单">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </a>
+    </div>
+    <nav class="flex flex-col gap-1 px-4 py-4">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class={`px-3 py-3 rounded-lg text-base font-medium transition-colors ${
+            currentPath === item.href
+              ? "text-primary-700 bg-primary-50"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</div>

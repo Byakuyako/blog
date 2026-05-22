@@ -1,0 +1,22 @@
+{
+  "name": "byakuyako-blog",
+  "version": "2.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^5.1.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "astro": "^5.0.0",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49"
+  }
+}
